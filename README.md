@@ -45,13 +45,19 @@ npx tailwindcss init
 3. Add file entensions to tailwind config file in the contents property
 
 ....
-    "./src/**/*.{html,js,jsx,ts,tsx}"
+"./src/\*_/_.{html,js,jsx,ts,tsx}"
 ....
 
 4. Add the tailwind directives at the top of the `index.css` file
 
 .....
-    @tailwind base;
-    @tailwind components;
-    @tailwind utilities;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.....
+
+### Adding plugins and dependencies
+
+.....
+npm i @reduxjs/toolkit react-redux react-router-dom react-icons react-chartjs-2 chart.js daisyui axios react-hot-toast @tailwindcss/line-clamp
 .....
