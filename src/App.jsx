@@ -1,12 +1,15 @@
-import './App.css'
+import "./App.css";
+
+import { Route, Routes } from "react-router-dom";
 
 function App() {
- 
   return (
     <>
-    learning management
+      <Routes>
+        {/* <Route path="/" element={<Home />} /> */}
+        </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

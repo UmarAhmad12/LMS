@@ -61,3 +61,38 @@ npx tailwindcss init
 .....
 npm i @reduxjs/toolkit react-redux react-router-dom react-icons react-chartjs-2 chart.js daisyui axios react-hot-toast @tailwindcss/line-clamp
 .....
+
+### Configure auto import sort eslint
+
+## To automatically sort imports on save in Visual Studio Code, you can use the ESLint extension along with eslint-plugin-simple-import-sort. 
+
+1. Install eslint simple import sort and eslint extension in vscode
+
+   .....
+   npm i -D eslint-plugin-simple-import-sort
+   .....
+
+2. Add rules in `.eslintrc.cjs`
+
+.....
+rules: {
+"simple-import-sort/imports": "error",
+},
+....
+
+3. Add simple-import sort plugin in `.eslint.cjs`
+
+....
+plugins: [ ..... , 'simple-import-sort'],
+....
+
+4. To enable auto import sort on file save in vscode
+
+......
+    Open your Visual Studio Code settings (settings.json) by either selecting Preferences > Settings or pressing Ctrl+,. Then, add the following configuration:
+    
+    "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+    },
+......
+
