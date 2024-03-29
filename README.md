@@ -64,7 +64,7 @@ npm i @reduxjs/toolkit react-redux react-router-dom react-icons react-chartjs-2 
 
 ### Configure auto import sort eslint
 
-## To automatically sort imports on save in Visual Studio Code, you can use the ESLint extension along with eslint-plugin-simple-import-sort. 
+### To automatically sort imports on save in Visual Studio Code, you can use the ESLint extension along with eslint-plugin-simple-import-sort. 
 
 1. Install eslint simple import sort and eslint extension in vscode
 
