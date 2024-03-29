@@ -33,8 +33,10 @@ npm run dev
 1. Install tailwindcss
 
 .....
-npm install -D tailwindcss
+npm install -D tailwindcss postcss autoprefixer
 ....
+
+note: if you have setup the project with vite react then install this-->  npx tailwindcss init -p (if not then dont install)
 
 2. Create tailwind config file
 
@@ -45,7 +47,7 @@ npx tailwindcss init
 3. Add file entensions to tailwind config file in the contents property
 
 ....
-"./src/\*_/_.{html,js,jsx,ts,tsx}"
+    "./index.html",,"./src/\*_/_.{html,js,jsx,ts,tsx}"
 ....
 
 4. Add the tailwind directives at the top of the `index.css` file
