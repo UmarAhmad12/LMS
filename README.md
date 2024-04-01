@@ -36,7 +36,7 @@ npm run dev
 npm install -D tailwindcss postcss autoprefixer
 ....
 
-note: if you have setup the project with vite react then install this-->  npx tailwindcss init -p (if not then dont install)
+note: if you have setup the project with vite react then install this--> npx tailwindcss init -p (if not then dont install)
 
 2. Create tailwind config file
 
@@ -44,19 +44,26 @@ note: if you have setup the project with vite react then install this-->  npx ta
 npx tailwindcss init
 ....
 
-3. Add file entensions to tailwind config file in the contents property
+3. Add file entensions to tailwind config file in the content property
 
 ....
-    "./index.html",,"./src/\*_/_.{html,js,jsx,ts,tsx}"
+    ["./index.html", "./src/**/*.{html,js,jsx,ts,tsx}"]
 ....
 
-4. Add the tailwind directives at the top of the `index.css` file
+4. Add the following details in the plugin property of tailwind config
+
+......
+    [require("daisyui"), require("@tailwindcss/line-clamp")]
+......
+
+5. Add the tailwind directives at the top of the `index.css` file
 
 .....
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 .....
+
 
 ### Adding plugins and dependencies
 
@@ -66,7 +73,7 @@ npm i @reduxjs/toolkit react-redux react-router-dom react-icons react-chartjs-2 
 
 ### Configure auto import sort eslint
 
-### To automatically sort imports on save in Visual Studio Code, you can use the ESLint extension along with eslint-plugin-simple-import-sort. 
+### To automatically sort imports on save in Visual Studio Code, you can use the ESLint extension along with eslint-plugin-simple-import-sort.
 
 1. Install eslint simple import sort and eslint extension in vscode
 
@@ -91,10 +98,10 @@ plugins: [ ..... , 'simple-import-sort'],
 4. To enable auto import sort on file save in vscode
 
 ......
-    Open your Visual Studio Code settings (settings.json) by either selecting Preferences > Settings or pressing Ctrl+,. Then, add the following configuration:
-    
+Open your Visual Studio Code settings (settings.json) by either selecting Preferences > Settings or pressing Ctrl+,. Then, add the following configuration:
+
     "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
     },
-......
 
+......
