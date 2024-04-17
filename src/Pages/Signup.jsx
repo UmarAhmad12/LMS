@@ -4,6 +4,7 @@ import { BsPersonCircle } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
+import { isEmail, isValidPassword } from "../Helpers/regexMatcher";
 import HomeLayout from "../Layouts/HomeLayout";
 import { createAccount } from "../Redux/Slices/AuthSlice";
 
@@ -47,59 +48,65 @@ function Signup() {
     }
   }
 
- async function createNewAccount(event) {
+  async function createNewAccount(event) {
     event.preventDefault();
-    if (!signupData.fullName || !signupData.email || !signupData.password || !signupData.avatar) {
+    if (
+      !signupData.fullName ||
+      !signupData.email ||
+      !signupData.password ||
+      !signupData.avatar
+    ) {
       toast.error("Please fill all the details");
       return;
     }
 
     // checking name field length
-    if(signupData.fullName.length < 5) {
-        toast.error("Name Should be atleast of 5 characters");
-        return;
+    if (signupData.fullName.length < 5) {
+      toast.error("Name Should be atleast of 5 characters");
+      return;
     }
 
     // checking valid email
-    if(!signupData.email.match(
-        /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
-    )){
-    toast.error("Invalid email id");
-    return;
-  } 
+    if (!isEmail(signupData.email)) {
+      toast.error("Invalid email id");
+      return;
+    }
 
-//   Checking password validation
-if(!signupData.password.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)){
-    toast.error("Passsword should be 8 - 16 character long with atleast a number and special character.");
-    return;
-}
+    //   Checking password validation
+    if (!isValidPassword(signupData.password)) {
+      toast.error(
+        "Passsword should be 8 - 16 character long with atleast a number and special character."
+      );
+      return;
+    }
 
-const formData = new FormData();
-formData.append("fullName", signupData.fullName);
-formData.append("email", signupData.email);
-formData.append("password", signupData.password);
-formData.append("avatar", signupData.avatar);
+    const formData = new FormData();
+    formData.append("fullName", signupData.fullName);
+    formData.append("email", signupData.email);
+    formData.append("password", signupData.password);
+    formData.append("avatar", signupData.avatar);
 
-// Dispatch create account action
-const response = await dispatch(createAccount(formData));
-if(response?.payload?.success)
-navigate("/");
-console.log("see here",response);
-setSignupData({
-    fullName:"",
-    email:"",
-    password:"",
-    avatar:""
-});
-setPreviewImage("");
-
-}
-
+    // Dispatch create account action
+    const response = await dispatch(createAccount(formData));
+    if (response?.payload?.success) navigate("/");
+    console.log("see here", response);
+    setSignupData({
+      fullName: "",
+      email: "",
+      password: "",
+      avatar: "",
+    });
+    setPreviewImage("");
+  }
 
   return (
     <HomeLayout>
       <div className="flex items-center justify-center h-[90vh]">
-        <form noValidate onSubmit={createNewAccount} className="flex flex-col justify-center gap-3 rounded-lg p-4 text-white w-96 shadow-[0_0_10px_black]">
+        <form
+          noValidate
+          onSubmit={createNewAccount}
+          className="flex flex-col justify-center gap-3 rounded-lg p-4 text-white w-96 shadow-[0_0_10px_black]"
+        >
           <h1 className="text-center text-2xl font-bold">Registration Page</h1>
 
           <label htmlFor="image_uploads" className="cursor-pointer">
