@@ -18,10 +18,10 @@ function Checkout() {
   const subscription_id = useSelector(
     (state) => state.razorpay.subscription_id
   );
-  const isPaymentVerified = useSelector(
-    (state) => state?.razorpay?.isPaymentVerified
-  );
-  const userData = useSelector((state) => state?.razorpay?.data);
+  // const isPaymentVerified = useSelector(
+  //   (state) => state?.razorpay?.isPaymentVerified
+  // );
+  // const userData = useSelector((state) => state?.razorpay?.data);
   const paymentDetails = {
     razorpay_payment_id: "",
     razorpay_subscription_id: "",
@@ -42,10 +42,10 @@ function Checkout() {
       theme: {
         color: "#F37252",
       },
-      prefill: {
-        email: userData?.email,
-        name: userData?.name,
-      },
+      // prefill: {
+      //   email: userData?.email,
+      //   name: userData?.name,
+      // },
       handler: async function (response) {
         paymentDetails.razorpay_payment_id = response.razorpay_payment_id;
         paymentDetails.razorpay_signature = response.razorpay_signature;

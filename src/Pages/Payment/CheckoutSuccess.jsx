@@ -1,9 +1,16 @@
+import { useEffect } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
-
-import HomeLayout from "../../Layouts/HomeLayout";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
+import HomeLayout from "../../Layouts/HomeLayout";
+import { getUserData } from "../../Redux/Slices/AuthSlice";
+
 function CheckoutSuccess() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getUserData());
+  });
   return (
     <HomeLayout>
       <div className="min-h-[90vh] flex items-center justify-center text-white">
@@ -21,8 +28,11 @@ function CheckoutSuccess() {
             </div>
             <AiFillCheckCircle className="text-green-500 text-5xl" />
           </div>
-          <Link to="/" className="bg-green-500 hover:bg-green-600 transition-all ease-in-out duration-300 absolute bottom-0 w-full py-2 text-xl font-bold text-center rounded-br-lg rounded-bl-lg">
-          <button>Go to dashboard</button>
+          <Link
+            to="/"
+            className="bg-green-500 hover:bg-green-600 transition-all ease-in-out duration-300 absolute bottom-0 w-full py-2 text-xl font-bold text-center rounded-br-lg rounded-bl-lg"
+          >
+            <button>Go to dashboard</button>
           </Link>
         </div>
       </div>
