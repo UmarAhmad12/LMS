@@ -12,6 +12,7 @@ function Profile() {
   const userData = useSelector((state) => state?.auth?.data);
 
   async function handleCancellation() {
+    toast("Initiating cancellation");
     await dispatch(cancelCourseBundle());
     await dispatch(getUserData());
     toast.success("Cancellation completed");
