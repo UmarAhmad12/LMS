@@ -101,10 +101,10 @@ function HomeLayout({ children }) {
             {isLoggedIn && (
               <li className="absolute bottom-4 w-[90%]">
                 <div className="w-full flex items-center justify-center">
-                <Link className="w-full" to="/user/profile"><button className="btn-primary bg-primary px-4 py-1 font-semibold rounded-md w-full">
+                <Link className="w-full" to="/user/profile"><button className="btn btn-primary px-4 py-1 font-semibold rounded-md w-full">
                     Profile
                   </button></Link>
-                  <Link className="w-full" onClick={handleLogout}><button className="btn-secondary bg-secondary px-4 py-1 font-semibold rounded-md w-full">
+                  <Link className="w-full" onClick={handleLogout}><button className="btn btn-secondary px-4 py-1 font-semibold rounded-md w-full">
                     Logout
                   </button></Link>
                 </div>
