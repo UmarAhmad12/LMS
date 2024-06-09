@@ -2,7 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import HomeLayout from "../../Layouts/HomeLayout";
 import { createNewCourse } from "../../Redux/Slices/CourseSlice";
@@ -78,9 +78,12 @@ function CreateCourse() {
           onSubmit={onFormSubmit}
           className="flex flex-col justify-center gap-5 rounded-lg p-4 text-white w-[700px] my-10 shadow-[0_0_10px_black] relative"
         >
-          <Link to={"/"} className="absolute top-6 text-2xl link text-accent cursor-pointer">
+          <button
+            onClick={() => navigate(-1)}
+            className="absolute top-6 text-2xl link text-accent cursor-pointer"
+          >
             <AiOutlineArrowLeft />
-          </Link>
+          </button>
           <h1 className="text-center text-2xl font-bold">Create New Course</h1>
 
           <main className="grid grid-cols-2 gap-x-10">
@@ -174,14 +177,15 @@ function CreateCourse() {
                   onChange={handleUserInpt}
                 />
               </div>
-
             </div>
           </main>
 
-                  <button type="submit" className="w-full py-2 rounded-sm font-semibold text-lg cursor-pointer bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300">
-                    Create Course
-                  </button>
-
+          <button
+            type="submit"
+            className="w-full py-2 rounded-sm font-semibold text-lg cursor-pointer bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300"
+          >
+            Create Course
+          </button>
         </form>
       </div>
     </HomeLayout>

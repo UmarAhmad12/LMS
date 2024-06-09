@@ -73,7 +73,7 @@ function DisplayLectures() {
                     onClick={() =>
                       navigate("/course/addlecture", { state: { ...state } })
                     }
-                    className="bg-primary px-2 py-1 rounded-md font-semibold text-sm text-white"
+                    className="btn btn-primary btn-xs rounded-md font-semibold text-sm text-white"
                   >
                     Add new lecture
                   </button>
@@ -95,7 +95,7 @@ function DisplayLectures() {
                           onClick={() =>
                             onLectureDelete(state?._id, lecture?._id)
                           }
-                          className="bg-accent px-2 py-1 rounded-md font-semibold text-sm"
+                          className="btn btn-accent btn-xs text-white rounded-md font-semibold text-sm"
                         >
                           Delete lecture
                         </button>
