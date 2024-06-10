@@ -15,6 +15,9 @@ import Denied from "./Pages/Denied";
 import HomePage from "./Pages/HomePage";
 import Login from "./Pages/Login";
 import NotFound from "./Pages/NotFound";
+import ChangePassword from "./Pages/Password/ChangePassword";
+import ForgotPassword from "./Pages/Password/ForgotPassword";
+import ResetPassword from "./Pages/Password/ResetPassword";
 import Checkout from "./Pages/Payment/Checkout";
 import CheckoutFailure from "./Pages/Payment/CheckoutFailure";
 import CheckoutSuccess from "./Pages/Payment/CheckoutSuccess";
@@ -45,6 +48,18 @@ function App() {
         <Route element={<RequireAuth allowedRoles={["ADMIN", "USER"]} />}>
           <Route path="/user/profile" element={<Profile />} />
           <Route path="/user/editprofile" element={<EditProfile />} />
+          <Route
+            path="/user/profile/reset-password"
+            element={<ForgotPassword />}
+          />
+          <Route
+            path="/reset-password/:resetToken"
+            element={<ResetPassword />}
+          />
+          {/* <Route
+            path="/user/profile/change-password"
+            element={<ChangePassword />}
+          /> */}
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/checkout/success" element={<CheckoutSuccess />} />
           <Route path="/checkout/fail" element={<CheckoutFailure />} />

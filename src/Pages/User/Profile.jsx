@@ -1,4 +1,7 @@
+import { useState } from "react";
 import toast from "react-hot-toast";
+import { FiMoreVertical } from "react-icons/fi";
+import { IoIosLock, IoIosRefresh } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -10,6 +13,12 @@ function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userData = useSelector((state) => state?.auth?.data);
+
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const toggleDialog = () => {
+    setIsDialogOpen((prev) => !prev);
+  };
 
   async function handleCancellation() {
     toast("Initiating cancellation");
@@ -23,10 +32,31 @@ function Profile() {
     <HomeLayout>
       <div className="min-h-[90vh] flex items-center justify-center">
         <div className="my-10 flex flex-col gap-4 rounded-lg p-4 text-white w-96 shadow-[0_0_10px_black]">
-          <img
-            src={userData?.avatar?.secure_url}
-            className="w-40 m-auto rounded-full border border-black"
-          />
+          <div className="relative flex">
+            <img
+              src={userData?.avatar?.secure_url}
+              className="w-40 m-auto rounded-full border border-black"
+            />
+            <div>
+              <FiMoreVertical onClick={toggleDialog} size={20} className="cursor-pointer" />
+              {isDialogOpen && (
+                <div className="absolute right-0 mt-2 bg-white dark:bg-base-300 transition-all ease-in-out duration-500 border-[1px] border-gray-200 dark:border-gray-500 rounded-s-xl rounded-ee-xl py-2 shadow-lg z-10">
+                  <button
+                    className="text-gray-700 w-full flex items-center gap-2 dark:text-white px-3 pb-2 border-b-[1px] border-gray-300"
+                    onClick={() => navigate("change-password")}
+                  >
+                    <IoIosLock /> Change password
+                  </button>
+                  <button
+                    className="text-[#ff1414] dark:text-red-300 px-3 pt-2 w-full flex items-center gap-2"
+                    onClick={() => navigate("reset-password")}
+                  >
+                    <IoIosRefresh /> Reset password
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
           <h3 className="text-xl font-semibold text-center capitalize">
             {userData?.fullName}
           </h3>
@@ -42,20 +72,20 @@ function Profile() {
                 : "Inactive"}
             </p>
           </div>
-          <div className="flex items-center justify-between gap-2">
+          {/* <div className="flex items-center justify-between gap-2">
             <Link
               to="/changepassword"
               className="w-1/2 bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm font-semibold cursor-pointer py-2 text-center"
             >
               <button>Change password</button>
-            </Link>
+            </Link> */}
             <Link
               to="/user/editprofile"
-              className="w-1/2 bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm font-semibold cursor-pointer py-2 text-center"
+              className="w-full bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm font-semibold cursor-pointer py-2 text-center"
             >
               <button>Edit profile</button>
             </Link>
-          </div>
+          {/* </div> */}
           {userData?.subscription?.status === "active" && (
             <button
               onClick={handleCancellation}
