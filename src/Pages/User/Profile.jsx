@@ -1,9 +1,10 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { FaUserEdit } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
-import { IoIosLock, IoIosRefresh } from "react-icons/io";
+import { IoIosLock } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import HomeLayout from "../../Layouts/HomeLayout";
 import { getUserData } from "../../Redux/Slices/AuthSlice";
@@ -38,7 +39,11 @@ function Profile() {
               className="w-40 m-auto rounded-full border border-black"
             />
             <div>
-              <FiMoreVertical onClick={toggleDialog} size={20} className="cursor-pointer" />
+              <FiMoreVertical
+                onClick={toggleDialog}
+                size={20}
+                className="cursor-pointer"
+              />
               {isDialogOpen && (
                 <div className="absolute right-0 mt-2 bg-white dark:bg-base-300 transition-all ease-in-out duration-500 border-[1px] border-gray-200 dark:border-gray-500 rounded-s-xl rounded-ee-xl py-2 shadow-lg z-10">
                   <button
@@ -49,9 +54,9 @@ function Profile() {
                   </button>
                   <button
                     className="text-[#ff1414] dark:text-red-300 px-3 pt-2 w-full flex items-center gap-2"
-                    onClick={() => navigate("reset-password")}
+                    onClick={() => navigate("/user/editprofile")}
                   >
-                    <IoIosRefresh /> Reset password
+                    <FaUserEdit /> Edit Profile
                   </button>
                 </div>
               )}
@@ -79,12 +84,12 @@ function Profile() {
             >
               <button>Change password</button>
             </Link> */}
-            <Link
+          {/* <Link
               to="/user/editprofile"
               className="w-full bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm font-semibold cursor-pointer py-2 text-center"
             >
               <button>Edit profile</button>
-            </Link>
+            </Link> */}
           {/* </div> */}
           {userData?.subscription?.status === "active" && (
             <button

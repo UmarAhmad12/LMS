@@ -44,7 +44,7 @@ export default function ForgotPassword() {
 
   return (
     <HomeLayout>
-     <div className="flex items-center justify-center h-[100vh]">
+     <div className="flex items-center justify-center h-[90vh]">
         <form
           onSubmit={onForgotPassword}
           noValidate

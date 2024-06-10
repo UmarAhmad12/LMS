@@ -84,6 +84,9 @@ function Login() {
               onChange={handleUserInput}
               value={loginData.password}
             />
+            <Link to="/forgot-password" className="link text-accent cursor-pointer">
+              Forgot your password?
+            </Link>
           </div>
 
           <button

@@ -38,6 +38,11 @@ function App() {
 
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route
+          path="/forgot-password"
+          element={<ForgotPassword />}
+        />
+        <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
 
         <Route element={<RequireAuth allowedRoles={["ADMIN"]} />}>
           <Route path="/course/create" element={<CreateCourse />} />
@@ -49,17 +54,9 @@ function App() {
           <Route path="/user/profile" element={<Profile />} />
           <Route path="/user/editprofile" element={<EditProfile />} />
           <Route
-            path="/user/profile/reset-password"
-            element={<ForgotPassword />}
-          />
-          <Route
-            path="/reset-password/:resetToken"
-            element={<ResetPassword />}
-          />
-          {/* <Route
             path="/user/profile/change-password"
             element={<ChangePassword />}
-          /> */}
+          />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/checkout/success" element={<CheckoutSuccess />} />
           <Route path="/checkout/fail" element={<CheckoutFailure />} />
