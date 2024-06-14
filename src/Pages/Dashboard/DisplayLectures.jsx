@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FaArrowAltCircleDown } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -61,6 +62,19 @@ function DisplayLectures() {
                   </span>
                   {lectures && lectures[currentVideo]?.description}
                 </p>
+                {lectures[currentVideo]?.driveUrl ? (
+                <p className="flex items-center gap-2">
+                  <span className="text-yellow-500 line-clamp-4">
+                    Download Notes:{" "}
+                  </span>
+                  <a
+                    href={lectures && lectures[currentVideo]?.driveUrl}
+                    target="_blank"
+                  >
+                  <FaArrowAltCircleDown/>
+                  </a>
+                </p>
+                ) : ""}
               </div>
             </div>
 
@@ -104,7 +118,8 @@ function DisplayLectures() {
                   );
                 })}
             </ul>
-          </div>) : (
+          </div>
+        ) : (
           role === "ADMIN" && (
             <button
               onClick={() =>

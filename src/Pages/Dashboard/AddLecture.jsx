@@ -17,6 +17,7 @@ function AddLecture() {
     id: courseDetails._id,
     lecture: undefined,
     title: "",
+    driveUrl: "",
     description: "",
     videoSrc: "",
   });
@@ -48,7 +49,7 @@ function AddLecture() {
     }
     const response = await dispatch(addCourseLectures(userInput));
     if (response?.payload?.success) {
-        navigate(-1);
+      navigate(-1);
       setUserInput({
         id: courseDetails?._id,
         lecture: undefined,
@@ -87,6 +88,14 @@ function AddLecture() {
               className="bg-transparent px-3 py-1 border"
               value={userInput.title}
             />
+            <input
+              type="text"
+              name="driveUrl"
+              placeholder="enter the driveUrl of the lecture"
+              onChange={handleInputChange}
+              className="bg-transparent px-3 py-1 border"
+              value={userInput.driveUrl}
+            />
             <textarea
               type="text"
               name="description"
@@ -122,8 +131,11 @@ function AddLecture() {
                 />
               </div>
             )}
-            <button type="submit" className="btn btn-primary py-1 font-semibold text-lg text-white">
-                Add New Lecture
+            <button
+              type="submit"
+              className="btn btn-primary py-1 font-semibold text-lg text-white"
+            >
+              Add New Lecture
             </button>
           </form>
         </div>

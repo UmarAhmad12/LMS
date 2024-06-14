@@ -8,9 +8,10 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Bar, Pie } from "react-chartjs-2";
 import { BsFillCollectionPlayFill, BsTrash } from "react-icons/bs";
+import { FaRegEdit } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
 import { FcSalesPerformance } from "react-icons/fc";
 import { GiMoneyStack } from "react-icons/gi";
@@ -18,7 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import HomeLayout from "../../Layouts/HomeLayout";
-import { deleteCourses, getAllCourses } from "../../Redux/Slices/CourseSlice";
+import { deleteCourses, getAllCourses, updateCourse } from "../../Redux/Slices/CourseSlice";
 import { getPaymentRecord } from "../../Redux/Slices/RazorpaySlice";
 import { getStatsData } from "../../Redux/Slices/StatSlice";
 ChartJs.register(
@@ -36,8 +37,6 @@ function AdminDashboard() {
   const navigate = useNavigate();
 
   const { allUserCount, subscribedCount } = useSelector((state) => state.stat);
-  //   console.log("count for user", allUserCount);
-
   const { allPayments, monthlySalesRecord } = useSelector(
     (state) => state.razorpay
   );
@@ -58,18 +57,7 @@ function AdminDashboard() {
 
   const salesData = {
     labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ],
     fontColor: "white",
     datasets: [
@@ -85,14 +73,31 @@ function AdminDashboard() {
 
   const myCourse = useSelector((state) => state?.course?.courseData);
 
+  const [editCourse, setEditCourse] = useState(null);
+
   async function onCourseDelete(id) {
-    if (window.confirm("Are you sure you want to delete the course ? ")) {
+    if (window.confirm("Are you sure you want to delete the course?")) {
       const res = await dispatch(deleteCourses(id));
-      //   console.log("golu", res);
       if (res?.payload?.success) {
         await dispatch(getAllCourses());
       }
     }
+  }
+
+  async function onCourseUpdate() {
+    const res = await dispatch(updateCourse(editCourse));
+    if (res?.payload?.success) {
+      await dispatch(getAllCourses());
+      setEditCourse(null); // close the modal/form
+    }
+  }
+
+  function handleUserInput(e) {
+    const { name, value } = e.target;
+    setEditCourse({
+      ...editCourse,
+      [name]: value,
+    });
   }
 
   useEffect(() => {
@@ -101,7 +106,7 @@ function AdminDashboard() {
       await dispatch(getStatsData());
       await dispatch(getPaymentRecord());
     })();
-  }, []);
+  }, [dispatch]);
 
   return (
     <HomeLayout>
@@ -111,12 +116,10 @@ function AdminDashboard() {
         </h1>
 
         <div className="grid grid-cols-2 gap-5 m-auto mx-10">
-          {/* Pie Chart User data */}
           <div className="flex flex-col items-center gap-10 p-5 shadow-lg rounded-md">
             <div className="w-80 h-80">
               <Pie data={userData} />
             </div>
-
             <div className="grid grid-cols-2 gap-5">
               <div className="flex items-center justify-center p-5 gap-5 rounded-md shadow-md">
                 <div className="flex flex-col items-center">
@@ -135,12 +138,10 @@ function AdminDashboard() {
             </div>
           </div>
 
-          {/* Bar Chart Sales data */}
           <div className="flex flex-col items-center gap-10 p-5 shadow-lg rounded-md">
             <div className="h-80 w-full relative">
               <Bar className="absolute bottom-0 h-80 w-full" data={salesData} />
             </div>
-
             <div className="grid grid-cols-2 gap-5">
               <div className="flex items-center justify-center p-5 gap-5 rounded-md shadow-md">
                 <div className="flex flex-col items-center">
@@ -204,7 +205,6 @@ function AdminDashboard() {
                     <td>{course?.category}</td>
                     <td>{course?.createdBy}</td>
                     <td>{course?.numberOfLectures}</td>
-                    {/* <td className="max-w-28 overflow-hidden text-ellipsis whitespace-nowrap"> */}
                     <td>
                       <textarea
                         value={course?.description || ""}
@@ -224,6 +224,12 @@ function AdminDashboard() {
                         <BsFillCollectionPlayFill />
                       </button>
                       <button
+                        className="bg-green-500 hover:bg-green-600 transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-bold"
+                        onClick={() => setEditCourse(course)}
+                      >
+                        <FaRegEdit />
+                      </button>
+                      <button
                         className="bg-red-500 hover:bg-red-600 transition-all ease-in-out duration-300 text-xl py-2 px-4 rounded-md font-bold"
                         onClick={() => onCourseDelete(course?._id)}
                       >
@@ -237,6 +243,93 @@ function AdminDashboard() {
           </table>
         </div>
       </div>
+
+      {editCourse && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-5 rounded-md w-1/3">
+            <h2 className="text-xl font-bold mb-4">Update Course</h2>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                onCourseUpdate();
+              }}
+            >
+              <div className="mb-4">
+                <label htmlFor="title" className="block text-gray-700">Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  id="title"
+                  className="w-full p-2 border rounded"
+                  value={editCourse.title}
+                  onChange={handleUserInput}
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="category" className="block text-gray-700">Category</label>
+                <input
+                  type="text"
+                  name="category"
+                  id="category"
+                  className="w-full p-2 border rounded"
+                  value={editCourse.category}
+                  onChange={handleUserInput}
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="instructor" className="block text-gray-700">Instructor</label>
+                <input
+                  type="text"
+                  name="createdBy"
+                  id="instructor"
+                  className="w-full p-2 border rounded"
+                  value={editCourse.createdBy}
+                  onChange={handleUserInput}
+                />
+              </div>
+              {/* <div className="mb-4">
+                <label className="block text-gray-700">Total Lectures</label>
+                <input
+                  type="number"
+                  className="w-full p-2 border rounded"
+                  value={editCourse.numberOfLectures}
+                  onChange={(e) =>
+                    setEditCourse({
+                      ...editCourse,
+                      numberOfLectures: e.target.value,
+                    })
+                  }
+                />
+              </div> */}
+              <div className="mb-4">
+                <label htmlFor="description" className="block text-gray-700">Description</label>
+                <textarea
+                  className="w-full p-2 border rounded"
+                  name="description"
+                  id="description"
+                  value={editCourse.description}
+                  onChange={handleUserInput}
+                ></textarea>
+              </div>
+              <div className="flex justify-end gap-4">
+                <button
+                  type="button"
+                  className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded"
+                  onClick={() => setEditCourse(null)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+                >
+                  Update
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </HomeLayout>
   );
 }

@@ -60,6 +60,21 @@ export const createNewCourse = createAsyncThunk("/course/create", async (data) =
   }
 })
 
+export const updateCourse = createAsyncThunk("/course/update", async (data) => {
+  try {
+    const response = axiosInstance.put(`/courses/${data._id}`, data);
+    toast.promise(response, {
+      loading: "Updating course ...",
+      success: "Course updated successfully",
+      error: "Failed to update the course",
+    });
+
+    return (await response).data;
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
+  }
+});
+
 const courseSlice = createSlice({
   name: "courses",
   initialState,
@@ -67,8 +82,17 @@ const courseSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getAllCourses.fulfilled, (state, action) => {
       if (action.payload) {
-        console.log(action.payload);
+        console.log(action.payload)
         state.courseData = [...action.payload];
+      }
+    });
+    builder.addCase(updateCourse.fulfilled, (state, action) => {
+      if (action.payload) {
+        console.log("upadte id", action.payload);
+        const index = state.courseData.findIndex(course => course._id === action.payload._id);
+        if (index !== -1) {
+          state.courseData[index] = action.payload;
+        }
       }
     });
   },
