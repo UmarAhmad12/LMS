@@ -22,13 +22,16 @@ function Profile() {
   };
 
   async function handleCancellation() {
-    toast("Initiating cancellation");
-    await dispatch(cancelCourseBundle());
-    await dispatch(getUserData());
-    toast.success("Cancellation completed");
-    navigate("/");
+    if (
+      window.confirm("Are you sure you want to cancel the course subscription?")
+    ) {
+      toast("Initiating cancellation");
+      await dispatch(cancelCourseBundle());
+      await dispatch(getUserData());
+      toast.success("Cancellation completed");
+      navigate("/");
+    }
   }
-
   return (
     <HomeLayout>
       <div className="min-h-[90vh] flex items-center justify-center">

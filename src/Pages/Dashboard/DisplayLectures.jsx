@@ -19,13 +19,14 @@ function DisplayLectures() {
   const [currentVideo, setCurrentVideo] = useState(0);
 
   async function onLectureDelete(courseId, lectureId) {
+    if (window.confirm("Are you sure you want to delete the course?")) {
     console.log(courseId, lectureId);
     await dispatch(
       deleteCourseLectures({ courseId: courseId, lectureId: lectureId })
     );
     await dispatch(getCourseLectures(courseId));
   }
-
+  }
   useEffect(() => {
     console.log(state);
     if (!state) navigate("/courses");
