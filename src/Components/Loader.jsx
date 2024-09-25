@@ -7,14 +7,14 @@ const override = {
     marginTop:"100px"
   };
 
-function Loader({  loading, setLoading }) {
+function Loader({  loading, setloading }) {
     // const [loading, setLoading] = useState(false);
 
   return (
     <PacmanLoader
       cssOverride={override}
-      setLoading={setLoading}
       loading={loading}
+      setloading={setloading}
       size={30}
       color="#F37A24"
     />
