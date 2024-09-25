@@ -31,7 +31,7 @@ function Login() {
     }
 
 
-    // Dispatch create account action
+    // Dispatch login account
     const response = await dispatch(login(loginData));
     if (response?.payload?.success) navigate("/");
     // console.log("see here", response);
