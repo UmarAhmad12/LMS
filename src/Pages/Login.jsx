@@ -30,11 +30,12 @@ function Login() {
       return;
     }
 
-
     // Dispatch login account
     const response = await dispatch(login(loginData));
-    if (response?.payload?.success) navigate("/");
-    // console.log("see here", response);
+    if (response?.payload?.success){
+      // console.log("see here", response);
+      navigate("/");
+    } 
 
     setLoginData({
       email: "",
@@ -84,7 +85,10 @@ function Login() {
               onChange={handleUserInput}
               value={loginData.password}
             />
-            <Link to="/forgot-password" className="link text-accent cursor-pointer">
+            <Link
+              to="/forgot-password"
+              className="link text-accent cursor-pointer"
+            >
               Forgot your password?
             </Link>
           </div>

@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast";
 
 import axiosInstance from "../../Helpers/axiosInstance";
 const initialState = {
-  isLoggedIn: localStorage.getItem("isLoggedIn") || false,
+  isLoggedIn: localStorage.getItem("isLoggedIn") || "",
   role: localStorage.getItem("role") || "",
   data:
     localStorage.getItem("data") != undefined
@@ -30,20 +30,20 @@ export const createAccount = createAsyncThunk("/auth/signup", async (data) => {
 });
 
 // .....Login.........
-export const login = createAsyncThunk("/auth/login", async (data) => {
+export const login = createAsyncThunk("/auth/login", async (data, { rejectWithValue }) => {
   try {
-    const res = axiosInstance.post("user/login", data);
-    toast.promise(res, {
+    const res = await axiosInstance.post("user/login", data);
+    toast.promise(Promise.resolve(res), {
       loading: "Wait! authentication in progress...",
       success: (data) => {
         return data?.data?.message;
       },
       error: "Failed to log in",
     });
-
-    return (await res).data;
+    return res.data; // Return the response data if successful
   } catch (error) {
     toast.error(error?.response?.data?.message);
+    return rejectWithValue(error.response.data); // Return the error data if failed
   }
 });
 
@@ -160,14 +160,25 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     // for login
     builder
-      .addCase(login.fulfilled, (state, action) => {
-        // console.log(action);
-        localStorage.setItem("data", JSON.stringify(action?.payload?.user));
-        localStorage.setItem("isLoggedIn", true);
-        localStorage.setItem("role", action?.payload?.user?.role);
-        state.isLoggedIn = true;
-        state.data = action?.payload?.user;
-        state.role = action?.payload?.user?.role;
+       // Handle login success
+       .addCase(login.fulfilled, (state, action) => {
+        if (action.payload) {
+          localStorage.setItem("data", JSON.stringify(action.payload.user));
+          localStorage.setItem("isLoggedIn", true);
+          localStorage.setItem("role", action.payload.user?.role);
+          state.isLoggedIn = true;
+          state.data = action.payload.user;
+          state.role = action.payload.user?.role;
+        }
+      })
+      // Handle login failure
+      .addCase(login.rejected, (state) => {
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("role");
+        localStorage.removeItem("data");
+        state.isLoggedIn = false;
+        state.role = "";
+        state.data = {};
       })
       // for logout
       .addCase(logout.fulfilled, (state) => {
